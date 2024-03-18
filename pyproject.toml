@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "academia-app"
+version = "0.1.0"
+description = ""
+authors = ["Espedito Ferreira Alves <espeditoalves123@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+kivy = "^2.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
