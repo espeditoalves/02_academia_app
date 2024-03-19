@@ -13,7 +13,67 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
-from dados_treinos import treinos  # Importar dados fictícios de treinos
+# from dados_treinos import treinos  # Importar dados fictícios de treinos
+treinos = {
+    'Treino A': {
+        'Pulley Frente': {
+            'id': 1, 
+            'imagem': 'local/Pulley_Frente.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Costas'
+            }, 
+        'Remada Articulada Pronada': {
+            'id': 2, 
+            'imagem': 'local/Remada_Articulada_Pronada.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Costas'
+            }, 
+        'Remada Cavalinho': {
+            'id': 3, 
+            'imagem': 'local/Remada_Cavalinho.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Costas'
+            }, 
+        'Pull Down': {
+            'id': 4, 
+            'imagem': 'local/Pull_Down.png', 
+            'concluido': False, 
+            'area_do_corpo': 
+            'Costas'
+            }, 
+        'Rosca Direta com Barra W': {
+            'id': 5, 
+            'imagem': 'local/Rosca_Direta_Bar_W.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Bíceps'
+            }, 
+        'Rosca Alternada': {
+            'id': 6, 
+            'imagem': 'local/Rosca_Alternada.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Bíceps'
+            }, 
+        'Rosca Inversa com Barra W': {
+            'id': 7, 
+            'imagem': 'local/Rosca_Inversa_Bar_W.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Antebraço'
+            }, 
+        'Abdominal Remador': {
+            'id': 8, 
+            'imagem': 'local/Abdominal_Remador.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Abdominais'
+            }
+        },
+    'Treino B': {
+        'Pulley Frente': {
+            'id': 1, 
+            'imagem': 'local/Pulley_Frente.png', 
+            'concluido': False, 
+            'area_do_corpo': 'Costas'
+            },}
+}
 
 # Inicializar a conexão com o banco de dados SQLite
 conn = sqlite3.connect('exercicios.db')
