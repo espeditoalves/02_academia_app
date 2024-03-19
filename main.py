@@ -4,20 +4,17 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.popup import Popup
 from kivy.uix.image import AsyncImage  # Importe AsyncImage para carregar imagens
-from kivy.utils import platform
-from kivy.core.window import Window
-from kivy.uix.scrollview import ScrollView
+from kivy.uix.scrollview import ScrollView  # Importe ScrollView para uso correto
 from webbrowser import open as open_web
 
 # Inicializando a conexão com o banco de dados SQLite
 conn = sqlite3.connect('exercicios.db')
 cursor = conn.cursor()
 
-class BackButton(ButtonBehavior, Label):
+class BackButton(Button, ButtonBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text = 'Voltar'
@@ -32,7 +29,7 @@ class ExercicioButton(Button):
         self.exercicio_id = exercicio_id
         self.exercicio_nome = exercicio_nome
         self.link = link
-        self.text = 'Concluir'
+        self.text = exercicio_nome 
         self.bind(on_release=self.abrir_popup)
 
     def abrir_popup(self, *args):
@@ -89,12 +86,26 @@ class TreinoApp(App):
     # Definir o dicionário de treinos aqui para torná-lo global
     treinos = {
         'Treino A': {
-            'Exercício 1': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',  # Link do vídeo
-            'Exercício 2': 'https://www.youtube.com/watch?v=4f2A_vjEwMY'   # Link da imagem
+            'Pulley Frente': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Remada Articulada Pronada': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Remada Cavalinho': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Pull Down': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Rosca Direta com Barra W': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Rosca Alternada': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',
+            'Rosca inversa com Barra W': '',
+            'Abdominal Remador': ''
         },
         'Treino B': {
-            'Exercício 3': 'https://www.bing.com/images/search?view=detailV2&ccid=Lfs4MvD%2f&id=048A35A8562964AC26E10B48900DD84E22E396EF&thid=OIP.Lfs4MvD_GgZVqZy4OUK9AAHaEn&mediaurl=https%3a%2f%2f2.bp.blogspot.com%2f-IqOjhqPsb0w%2fVUuEDUY6rJI%2fAAAAAAACHHw%2fG_NzBFk7oDI%2fs1600%2fVW-Gol-2016%252B(2).jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.2dfb3832f0ff1a0655a99cb83942bd00%3frik%3d75bjIk7YDZBICw%26pid%3dImgRaw%26r%3d0&exph=997&expw=1600&q=gol&simid=608012703736816243&FORM=IRPRST&ck=568519A7096DEE38C2364E1CBD0BE567&selectedIndex=0&itb=0',  # Link do vídeo
-            'Exercício 4': 'https://www.bing.com/images/search?view=detailV2&ccid=Lfs4MvD%2f&id=048A35A8562964AC26E10B48900DD84E22E396EF&thid=OIP.Lfs4MvD_GgZVqZy4OUK9AAHaEn&mediaurl=https%3a%2f%2f2.bp.blogspot.com%2f-IqOjhqPsb0w%2fVUuEDUY6rJI%2fAAAAAAACHHw%2fG_NzBFk7oDI%2fs1600%2fVW-Gol-2016%252B(2).jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.2dfb3832f0ff1a0655a99cb83942bd00%3frik%3d75bjIk7YDZBICw%26pid%3dImgRaw%26r%3d0&exph=997&expw=1600&q=gol&simid=608012703736816243&FORM=IRPRST&ck=568519A7096DEE38C2364E1CBD0BE567&selectedIndex=0&itb=0'    # Link da imagem
+            'Remada': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',  # Link do vídeo
+            'Exercício 4': 'https://www.youtube.com/watch?v=4f2A_vjEwMY'  # Link da imagem
+        },
+        'Treino C': {
+            'Exercício 1': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',  # Link do vídeo
+            'Exercício 2': 'https://www.youtube.com/watch?v=4f2A_vjEwMY'  # Link da imagem
+        },
+        'Treino D': {
+            'Exercício 3': 'https://www.youtube.com/watch?v=4f2A_vjEwMY',  # Link do vídeo
+            'Exercício 4': 'https://www.youtube.com/watch?v=4f2A_vjEwMY'  # Link da imagem
         },
     }
 
