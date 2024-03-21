@@ -1,4 +1,5 @@
 import pandas as pd
+from unidecode import unidecode 
 
 # treinos = {
 #     'Treino A': {
@@ -73,6 +74,7 @@ def transformar_excel_em_dicionario():
     for linha in range(df.shape[0]):
         treino = df.loc[linha, 'Treino']
         exercicio = df.loc[linha, 'Exercicio']
+        imagem = unidecode(df.loc[linha, 'Imagem'])
         
         # Verificar se o treino já existe no dicionário, se não, inicializar
         if treino not in treinos:
@@ -81,7 +83,7 @@ def transformar_excel_em_dicionario():
         # Adicionar o exercício ao treino correspondente
         treinos[treino][exercicio] = {
             'id': int(df.loc[linha, 'ID']),
-            'imagem': df.loc[linha, 'Imagem'],
+            'imagem': imagem,
             'concluido': False,
             'area_do_corpo': df.loc[linha, 'Área do Corpo']
         }
