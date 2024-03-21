@@ -7,6 +7,8 @@ import streamlit as st
 from utils.dados_treinos import *
 from utils.login import *
 
+# Obtém a data e hora atual
+data_atual = datetime.now().strftime('%Y/%m/%d')
 usuario_escolhido = None
 treinos = transformar_excel_em_dicionario()
 # Verificar se o banco de dados existe, caso contrário, criar
@@ -121,6 +123,7 @@ def salvar_atualizar_exercicio(exercicio):
 
 # Função para carregar os exercícios
 def carregar_exercicios(treino):
+    global data_atual
     exercicios = treinos[treino]
     lista_exercicios = []
     for topico, info in exercicios.items():
@@ -131,9 +134,7 @@ def carregar_exercicios(treino):
             imagem=info['imagem'],
             concluido=info['concluido'],
             area_do_corpo=info['area_do_corpo'],
-            data=datetime.now().strftime(
-                '%Y/%m/%d'
-            ),  # Obtém a data e hora atual
+            data=data_atual,  # Obtém a data e hora atual
         )
         lista_exercicios.append(exercicio)
     return lista_exercicios
@@ -143,21 +144,23 @@ def carregar_exercicios(treino):
 def pagina_inicio():
     global usuario_escolhido
     st.title('Treinos e Exercícios')
+    st.write('---')  # Adicionar uma linha horizontal
     # Criar um botão seletor para escolher entre "Espedito" e "Janaina"
     usuario_escolhido = st.radio(
         'Selecione o usuário:', ('Espedito', 'Janaina')
     )
-
-    # Exibir a escolha feita
-    st.write(f'Você escolheu: {usuario_escolhido}')
+    st.markdown(f"Data: **{datetime.now().strftime('%d/%m/%Y')}**")
     col_treinos = st.selectbox('Selecione um treino:', list(treinos.keys()))
+    st.write('---')  # Adicionar uma linha horizontal
 
     # Adiciona um espaço em branco para melhorar a aparência
     st.write('\n')
 
     exercicios = carregar_exercicios(col_treinos)
-
-    st.subheader(f'Exercícios do Treino: {col_treinos}')
+    # Exibir a escolha feita
+    st.write(f'Usuário Selecionado: {usuario_escolhido}')
+    st.subheader(f'{col_treinos}')
+    st.write('\n')
     for exercicio in exercicios:
         st.write(f'## {exercicio.nome}')
         st.write(f'**Área do Corpo:** {exercicio.area_do_corpo}')
