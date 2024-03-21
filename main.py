@@ -1,8 +1,8 @@
 import os
 import sqlite3
-import pandas as pd
 from datetime import datetime
 
+import pandas as pd
 from kivy.app import App
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -13,66 +13,67 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
+
 # from dados_treinos import treinos  # Importar dados fictícios de treinos
 treinos = {
     'Treino A': {
         'Pulley Frente': {
-            'id': 1, 
-            'imagem': 'local/Pulley_Frente.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-            }, 
-        'Remada Articulada Pronada': {
-            'id': 2, 
-            'imagem': 'local/Remada_Articulada_Pronada.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-            }, 
-        'Remada Cavalinho': {
-            'id': 3, 
-            'imagem': 'local/Remada_Cavalinho.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-            }, 
-        'Pull Down': {
-            'id': 4, 
-            'imagem': 'local/Pull_Down.png', 
-            'concluido': False, 
-            'area_do_corpo': 
-            'Costas'
-            }, 
-        'Rosca Direta com Barra W': {
-            'id': 5, 
-            'imagem': 'local/Rosca_Direta_Bar_W.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Bíceps'
-            }, 
-        'Rosca Alternada': {
-            'id': 6, 
-            'imagem': 'local/Rosca_Alternada.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Bíceps'
-            }, 
-        'Rosca Inversa com Barra W': {
-            'id': 7, 
-            'imagem': 'local/Rosca_Inversa_Bar_W.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Antebraço'
-            }, 
-        'Abdominal Remador': {
-            'id': 8, 
-            'imagem': 'local/Abdominal_Remador.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Abdominais'
-            }
+            'id': 1,
+            'imagem': 'local/Pulley_Frente.png',
+            'concluido': False,
+            'area_do_corpo': 'Costas',
         },
+        'Remada Articulada Pronada': {
+            'id': 2,
+            'imagem': 'local/Remada_Articulada_Pronada.png',
+            'concluido': False,
+            'area_do_corpo': 'Costas',
+        },
+        'Remada Cavalinho': {
+            'id': 3,
+            'imagem': 'local/Remada_Cavalinho.png',
+            'concluido': False,
+            'area_do_corpo': 'Costas',
+        },
+        'Pull Down': {
+            'id': 4,
+            'imagem': 'local/Pull_Down.png',
+            'concluido': False,
+            'area_do_corpo': 'Costas',
+        },
+        'Rosca Direta com Barra W': {
+            'id': 5,
+            'imagem': 'local/Rosca_Direta_Bar_W.png',
+            'concluido': False,
+            'area_do_corpo': 'Bíceps',
+        },
+        'Rosca Alternada': {
+            'id': 6,
+            'imagem': 'local/Rosca_Alternada.png',
+            'concluido': False,
+            'area_do_corpo': 'Bíceps',
+        },
+        'Rosca Inversa com Barra W': {
+            'id': 7,
+            'imagem': 'local/Rosca_Inversa_Bar_W.png',
+            'concluido': False,
+            'area_do_corpo': 'Antebraço',
+        },
+        'Abdominal Remador': {
+            'id': 8,
+            'imagem': 'local/Abdominal_Remador.png',
+            'concluido': False,
+            'area_do_corpo': 'Abdominais',
+        },
+    },
     'Treino B': {
         'Pulley Frente': {
-            'id': 1, 
-            'imagem': 'local/Pulley_Frente.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-            },}
+            'id': 1,
+            'imagem': 'local/Pulley_Frente.png',
+            'concluido': False,
+            'area_do_corpo': 'Costas',
+        },
+    },
 }
 
 # Inicializar a conexão com o banco de dados SQLite
@@ -105,7 +106,13 @@ class BackButton(Button, ButtonBehavior):
 
 class ExercicioButton(Button):
     def __init__(
-        self, exercicio_id, exercicio_nome, imagem_path, concluido, area_do_corpo, **kwargs
+        self,
+        exercicio_id,
+        exercicio_nome,
+        imagem_path,
+        concluido,
+        area_do_corpo,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.exercicio_id = exercicio_id
@@ -123,8 +130,6 @@ class ExercicioButton(Button):
         if data_atual:
             hoje = datetime.now()
             self.data = hoje.strftime('%Y/%m/%d')
-
-
 
     def update_button_text(self):
         # Define o texto do botão com base no status de conclusão
@@ -176,20 +181,38 @@ class ExercicioButton(Button):
     #     conn.commit()
     def update_database(self):
         # Verificar se o exercício já existe na tabela
-        cursor.execute('SELECT id FROM exercicios WHERE id = ?', (self.exercicio_id,))
+        cursor.execute(
+            'SELECT id FROM exercicios WHERE id = ?', (self.exercicio_id,)
+        )
         exercicio_existente = cursor.fetchone()
 
         if exercicio_existente:
             # Exercício já existe, então vamos atualizá-lo
             cursor.execute(
                 'UPDATE exercicios SET treino = ?, nome = ?, imagem = ?, concluido = ?, area_do_corpo = ?, data = ? WHERE id = ?',
-                (self.treino, self.exercicio_nome, self.imagem_path, int(self.concluido), self.area_do_corpo, self.data, self.exercicio_id),
+                (
+                    self.treino,
+                    self.exercicio_nome,
+                    self.imagem_path,
+                    int(self.concluido),
+                    self.area_do_corpo,
+                    self.data,
+                    self.exercicio_id,
+                ),
             )
         else:
             # Exercício não existe, então vamos inseri-lo
             cursor.execute(
                 'INSERT INTO exercicios (id, treino, nome, imagem, concluido, area_do_corpo, data) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                (self.exercicio_id, self.treino, self.exercicio_nome, self.imagem_path, int(self.concluido), self.area_do_corpo, self.data),
+                (
+                    self.exercicio_id,
+                    self.treino,
+                    self.exercicio_nome,
+                    self.imagem_path,
+                    int(self.concluido),
+                    self.area_do_corpo,
+                    self.data,
+                ),
             )
 
         # Commit das alterações no banco de dados
