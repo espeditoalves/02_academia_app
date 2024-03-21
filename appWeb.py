@@ -1,68 +1,12 @@
 import os
 import sqlite3
 import streamlit as st
+from dados_treinos import *
+from datetime import datetime
+from login import *
 
-treinos = {
-    'Treino A': {
-        'Pulley Frente': {
-            'id': 1, 
-            'imagem': 'local/Pulley_Frente.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-        }, 
-        'Remada Articulada Pronada': {
-            'id': 2, 
-            'imagem': 'local/Remada_Articulada_Pronada.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-        }, 
-        'Remada Cavalinho': {
-            'id': 3, 
-            'imagem': 'local/Remada_Cavalinho.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-        }, 
-        'Pull Down': {
-            'id': 4, 
-            'imagem': 'local/Pull_Down.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-        }, 
-        'Rosca Direta com Barra W': {
-            'id': 5, 
-            'imagem': 'local/Rosca_Direta_Bar_W.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Bíceps'
-        }, 
-        'Rosca Alternada': {
-            'id': 6, 
-            'imagem': 'local/Rosca_Alternada.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Bíceps'
-        }, 
-        'Rosca Inversa com Barra W': {
-            'id': 7, 
-            'imagem': 'local/Rosca_Inversa_Bar_W.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Antebraço'
-        }, 
-        'Abdominal Remador': {
-            'id': 8, 
-            'imagem': 'local/Abdominal_Remador.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Abdominais'
-        }
-    },
-    'Treino B': {
-        'Pulley Frente': {
-            'id': 1, 
-            'imagem': 'local/Pulley_Frente.png', 
-            'concluido': False, 
-            'area_do_corpo': 'Costas'
-        }
-    }
-}
 
+treinos = transformar_excel_em_dicionario()
 # Verificar se o banco de dados existe, caso contrário, criar
 if not os.path.exists('exercicios_stre.db'):
     conn = sqlite3.connect('exercicios_stre.db')
@@ -128,7 +72,7 @@ def carregar_exercicios(treino):
             imagem=info['imagem'],
             concluido=info['concluido'],
             area_do_corpo=info['area_do_corpo'],
-            data='2024-03-21'  # Adicione a data atual ou uma data relevante
+            data=datetime.now().strftime('%Y/%m/%d')  # Obtém a data e hora atual
         )
         lista_exercicios.append(exercicio)
     return lista_exercicios
@@ -167,10 +111,36 @@ def pagina_inicio():
         
         st.write('---')  # Adicionar uma linha horizontal entre exercícios
 
+# Função para gerenciar o redirecionamento após o login
+def gerenciar_redirecionamento(login_realizado):
+       if login_realizado:
+          st.empty()
+          pagina_inicio() 
+       else:
+           tela_login()
+
+# Variável de controle para verificar se o login foi realizado com sucesso
+login_realizado = False
+
+# Função para página inicial
+def tela_login():
+    criar_banco_usuarios()
+    st.title("Bem-vindo ao Sistema de Treinos e Exercícios")
+    opcao = st.radio("Escolha uma opção:", ("Cadastrar Novo Usuário", "Login"))
+    if opcao == "Cadastrar Novo Usuário":
+        cadastrar_novo_usuario()
+    elif opcao == "Login":
+        if login():
+            st.write("Login realizado com sucesso!")
+            global login_realizado
+            login_realizado = True
+            gerenciar_redirecionamento(login_realizado = login_realizado)
+        else:
+            st.warning("Você precisa fazer login para acessar o sistema.")
+
+
+
 # Executar o Streamlit app
 if __name__ == '__main__':
-    pagina_inicio()
-
-# Fechar a conexão com o banco de dados ao final do programa
-conn.close()
+    tela_login()  # Inicializa a tela de login
 
