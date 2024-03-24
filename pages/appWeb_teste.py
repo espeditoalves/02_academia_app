@@ -215,3 +215,5 @@ def converter_gif_base64(file_path):
 # Executar o Streamlit app
 if __name__ == '__main__':
     pagina_inicio()
+
+
