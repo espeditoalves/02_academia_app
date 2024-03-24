@@ -74,9 +74,9 @@ class ExercicioButton:
         resultado = cursor.fetchone()
         if resultado:
             if resultado[0] == 1:  # Se concluido for 1, significa que está pago
-                return f'Exercício "{self.nome}" Pago.'
+                return f'Exercício "{self.nome}" Feito.'
             else:
-                return f'Exercício "{self.nome}" Não Pago.'
+                return f'Exercício "{self.nome}" Não Feito.'
         else:
             return f'Exercício "{self.nome}" Não Foi Iniciado.'
 

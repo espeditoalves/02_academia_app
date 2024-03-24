@@ -76,7 +76,7 @@ def transformar_excel_em_dicionario():
         treino = df.loc[linha, 'Treino']
         exercicio = df.loc[linha, 'Exercicio']
         imagem = unidecode(df.loc[linha, 'Imagem'])
-        gif = df.loc[linha, 'Imagem_Gif']
+        gif = unidecode(df.loc[linha, 'Imagem_Gif'])
 
         # Verificar se o treino já existe no dicionário, se não, inicializar
         if treino not in treinos:
